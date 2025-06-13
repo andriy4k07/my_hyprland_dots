@@ -1,0 +1,66 @@
+## User-installed packages
+
+### Official repository packages (installed via `pacman -Qe`)
+- amd-ucode  
+- base  
+- blueman  
+- bluez-utils  
+- brightnessctl  
+- btop  
+- cava  
+- cliphist  
+- easyeffects  
+- evtest  
+- firefox  
+- flatpak  
+- grub  
+- htop  
+- hyprland  
+- hyprpicker  
+- inetutils  
+- inkscape  
+- kitty  
+- mako  
+- micro  
+- mpv  
+- nano  
+- nemo  
+- neofetch  
+- net-tools  
+- network-manager-applet  
+- qt6-virtualkeyboard  
+- refind  
+- rofimoji  
+- rust  
+- sddm  
+- spotify-launcher  
+- spotifyd  
+- starship  
+- steam  
+- swappy  
+- swaylock-effects  
+- telegram-desktop  
+- touchegg-gce-git  
+- unrar  
+- unzip  
+- uwufetch  
+- viewnior  
+- vim  
+- vulkan-tools  
+- waybar  
+- waypaper  
+- wlogout  
+- wlsunset  
+- xorg-server-xephyr  
+- xorg-xhost  
+
+### AUR packages (installed via `pacman -Qem`, e.g. with `yay`)
+- brave-bin  
+- catppuccin-gtk-theme-mocha  
+- neofetch  
+- swaylock-effects  
+- touchegg-gce-git  
+- waypaper  
+- wlogout  
+- yay  
+- yay-debug  
