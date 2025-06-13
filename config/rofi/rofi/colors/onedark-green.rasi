@@ -1,0 +1,20 @@
+/**
+ *
+ * Author : Andriy4k
+ * Palette: One Dark → Green Dark
+ **/
+
+* {
+    /* Основний фон — темно-зелений */
+    background:      #1B2E1BFF;
+    /* Альтернативний фон — трохи світліший */
+    background-alt:  #263A26FF;
+    /* Текст — м’яккий світло-зелений */
+    foreground:      #A8FF7EFF;
+    /* Вибраний елемент — середньозелений */
+    selected:        #5FD65FFF;
+    /* Активний елемент — яскравий лайм */
+    active:          #8CFA6CFF;
+    /* Терміновий — м’ятний */
+    urgent:          #72FF42FF;
+}

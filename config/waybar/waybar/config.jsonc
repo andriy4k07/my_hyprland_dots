@@ -1,0 +1,170 @@
+{
+	"height": 40,
+	"width": 1910,
+	"margin-top": 10,
+
+	"modules-left": ["custom/menu", "hyprland/workspaces", "hyprland/window", "custom/playerctl", "custom/playerlabel"],
+	"modules-center": ["custom/kitty", "custom/nemo"],
+	"modules-right": ["tray", "pulseaudio", "pulseaudio#microphone", "backlight", "hyprland/language", "battery", "clock", "custom/power"],
+
+	"custom/menu": {
+		"format": "{icon}",
+		"format-icons": "",
+		"on-click": "~/.config/rofi/launchers/type-6/launcher_2.sh",
+		"escape": true,
+		"tooltip": false
+	},
+
+	"hyprland/workspaces": {
+		"format": "{icon}",
+		"on-click": "activate",
+		"format-icons": {
+			"urgent": "",
+			"active": "",
+			"default": ""
+		},
+		"tooltip": false
+	},
+
+	"hyprland/window": {
+		"format": "{class}",
+		"separate-outputs": false
+	},
+
+	"custom/playerctl": {
+		"format": "{icon}",
+		"return-type": "json",
+		"max-length": 32,
+		"exec": "playerctl -a metadata --format '{\"text\": \"{{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+		"on-click-middle": "playerctl play-pause",
+		"on-click": "playerctl previous",
+		"on-click-right": "playerctl next",
+		"on-scroll-up": "~/.config/waybar/scripts/volume-notify.sh up",
+		"on-scroll-down": "~/.config/waybar/scripts/volume-notify.sh down",
+		"format-icons": {
+			"Playing": "<span foreground='#6ecf9f'>󰒮 󰐌 󰒭</span>",
+			"Paused": "<span foreground='#6ecf9f'>󰒮 󰏥 󰒭</span>"
+		}
+	},
+
+	"custom/playerlabel": {
+		"format": "<span>{}</span>",
+		"return-type": "json",
+		"max-length": 48,
+		"exec": "playerctl -a metadata --format '{\"text\": \"{{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
+		"on-click-middle": "playerctl play-pause",
+		"on-click": "playerctl previous",
+		"on-click-right": "playerctl next",
+		"on-scroll-up": "~/.config/waybar/scripts/volume-notify.sh up",
+		"on-scroll-down": "~/.config/waybar/scripts/volume-notify.sh down",
+		"format-icons": {
+			"Playing": "<span foreground='#90c99e'>󰒮 󰐌 󰒭</span>",
+			"Paused": "<span foreground='#5f9f7c'>󰒮 󰏥 󰒭</span>"
+		}
+	},
+
+	"custom/kitty": {
+		"format": "<span color='#6ecf9f'></span>",
+		"on-click": "exec kitty --title=kitty-float",
+		"tooltip": false
+	},
+
+	"custom/nemo": {
+		"format": "<span color='#6ecf9f'>󰉋</span>",
+		"on-click": "exec nemo Downloads",
+		"tooltip": false
+	},
+
+	"tray": {
+		"icon-size": 18,
+		"spacing": 10
+	},
+
+	"pulseaudio": {
+		"scroll-step": 5,
+		"format": "<span color='#6ecf9f'>{icon}</span> {volume}%<span color='#6ecf9f'>  |  </span>",
+		"format-icons": {
+			"default": ["", "", ""]
+		},
+		"on-click": "easyeffects",
+		"tooltip": false
+	},
+
+	"pulseaudio#microphone": {
+	    "scroll-step": 5,
+	    "format": "{format_source}<span color='#6ecf9f'>  |  </span>",
+	    "format-source": "",
+	    "format-source-muted": "",
+	    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+	    "tooltip": false
+	},
+	
+	"backlight": {
+	  	"device": "amdgpu_bl1",
+	  	"format": "<span color='#6ecf9f'>{icon}</span> {percent}%",
+	  	"tooltip": false,
+	  	"format-icons": ["󰃞", "󰃟", "󰃠"],
+	  	"on-scroll-up": "brightnessctl set +5%",
+	  	"on-scroll-down": "brightnessctl set 5%-"
+	},
+
+	"hyprland/language": {
+		"format": "<span color='#6ecf9f'>󰌏</span> {}<span color='#6ecf9f'>  |  </span>",
+		"format-en": "EN",
+		"format-uk": "UA"
+	},
+
+	"battery": {
+	  "bat": "BAT0",
+	  "adapter": "AC0", 
+	  "interval": 30,
+	  "states": {
+	    "warning": 30,
+	    "critical": 20
+	  },
+	  "format": "<span color='#6ecf9f'>{icon}</span> {capacity}%",
+	  "format-alt": "<span color='#6ecf9f'>{icon}</span>",
+	  "format-charging": "<span color='#6ecf9f'></span> {capacity}%",
+	  "format-icons": ["", "", "", ""],
+	  "tooltip": true
+	},
+
+	"clock": {
+		"interval": 1,
+		"format": "<span color='#6ecf9f'></span> {:%H:%M:%S}",
+		"tooltip-format": "<big><span color='#6ecf9f'>{:%Y %B}</span></big>\n<tt><small>{calendar}</small></tt>",
+		"format-alt": "<span color='#6ecf9f'></span> <span color='#6ecf9f'>{:%Y-%m-%d}</span>",
+
+		"calendar": {
+			"mode": "month",
+			"mode-mon-col": 3,
+			"weeks-pos": "right",
+			"on-scroll": 1,
+			"format": {
+				"months": "<span color='#6ecf9f'><b>{}</b></span>",
+				"days": "<span color='#6ecf9f'><b>{}</b></span>",
+				"weeks": "<span color='#6ecf9f'><b>W{}</b></span>",
+				"weekdays": "<span color='#6ecf9f'><b>{}</b></span>",
+				"today": "<span color='#6ecf9f'><b><u>{}</u></b></span>"
+			}
+		},
+		"actions": {
+			"on-click-right": "mode",
+			"on-click-forward": "tz_up",
+			"on-click-backward": "tz_down",
+			"on-scroll-up": "shift_up",
+			"on-scroll-down": "shift_down"
+		}
+	},
+
+	"custom/power": {
+		"format": "{icon}",
+		"format-icons": "",
+		"on-click": "~/.config/rofi/powermenu/type-5/powermenu.sh",
+		"escape": true,
+		"tooltip": false
+	},
+
+	"escape": true,
+	"exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null"
+}
