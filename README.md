@@ -93,4 +93,4 @@ Alternatively, you can use the provided `install.sh` to prompt-install packages 
 
 ---
 
-*Last updated: $(date +"%Y-%m-%d")*
+*Last updated: 13-06-2025*
