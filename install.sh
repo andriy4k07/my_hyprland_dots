@@ -7,6 +7,19 @@ set -euo pipefail
 BASE="$HOME/project/my_hyprland_dots/config"
 mkdir -p "$BASE"
 
+# 0. Ensure multilib repository is enabled
+if ! grep -Eq "^\[multilib\]" /etc/pacman.conf; then
+  read -rp "The [multilib] repository is not enabled. Enable it now? (y/N) " yn
+  if [[ "$yn" =~ ^[Yy] ]]; then
+    echo "=> Enabling multilib in /etc/pacman.conf"
+    sudo sed -i '/^#\[multilib\]/{s/^#//;n;s/^#//;}' /etc/pacman.conf
+    echo "=> Updating package database"
+    sudo pacman -Syu --noconfirm
+  else
+    echo "Warning: multilib repository is required for some packages (e.g., lib32). You may encounter errors."
+  fi
+fi
+
 # Package groups
 base_dev=(
   amd-ucode base git base-devel rust starship
@@ -18,7 +31,7 @@ network_bt=(
   inetutils net-tools network-manager-applet blueman bluez-utils
 )
 utilities=(
-  brightnessctl btop htop cliphist evtest  micro nano vim uwufetch unrar unzip
+  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip
 )
 media_graphics=(
   firefox flatpak inkscape mpv viewnior swappy cava easyeffects
@@ -32,7 +45,6 @@ music_audio=(
 gaming=(
   steam
 )
-
 aur_packages=(
   brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug
 )
@@ -50,8 +62,7 @@ install_group() {
   fi
 }
 
-# Ensure yay is installed
-if ! command -v yay &> /dev/null; then
+# Ensure yay is installed\ nif ! command -v yay &> /dev/null; then
   read -rp "yay is not installed. Install yay now? (y/N) " yn
   if [[ "$yn" =~ ^[Yy] ]]; then
     echo "=> Ensuring dependencies: git and base-devel..."
@@ -64,7 +75,6 @@ if ! command -v yay &> /dev/null; then
     popd &> /dev/null
     rm -rf "$tmpdir"
   fi
-fi
 
 # Install official package groups
 install_group base_dev "Base & Development"
