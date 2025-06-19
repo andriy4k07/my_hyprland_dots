@@ -18,7 +18,7 @@ network_bt=(
   inetutils net-tools network-manager-applet blueman bluez-utils
 )
 utilities=(
-  brightnessctl btop htop cliphist evtest neofetch micro nano vim uwufetch unrar unzip
+  brightnessctl btop htop cliphist evtest  micro nano vim uwufetch unrar unzip
 )
 media_graphics=(
   firefox flatpak inkscape mpv viewnior swappy cava easyeffects
