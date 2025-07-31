@@ -3,7 +3,9 @@ set -euo pipefail
 # install.sh – Install packages and sync dotfiles for my_hyprland_dots
 # Usage: ./install.sh
 
-BASE="$HOME/project/my_hyprland_dots/config"
+# Determine the script location and set BASE path
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+BASE="$SCRIPT_DIR/config"
 mkdir -p "$BASE"
 
 # 0. Ensure multilib repository is enabled
@@ -56,6 +58,47 @@ aur_packages=(
   brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug
 )
 
+# SDDM theme installation function
+install_sddm_theme() {
+  local date=$(date +%s)
+  local theme_source="$SCRIPT_DIR/themes/sddm-astronaut-theme"
+  
+  if [[ ! -d "$theme_source" ]]; then
+    echo "=> Error: SDDM theme not found at $theme_source"
+    echo "=> Please copy the theme files to your dotfiles directory first"
+    return 1
+  fi
+  
+  echo "=> Installing SDDM theme dependencies..."
+  sudo pacman --noconfirm --needed -S qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg
+  
+  echo "=> Installing SDDM Astronaut theme from dotfiles..."
+  [ -d /usr/share/sddm/themes/sddm-astronaut-theme ] && sudo mv /usr/share/sddm/themes/sddm-astronaut-theme /usr/share/sddm/themes/sddm-astronaut-theme_$date
+  
+  sudo mkdir -p /usr/share/sddm/themes/sddm-astronaut-theme
+  sudo cp -r "$theme_source"/* /usr/share/sddm/themes/sddm-astronaut-theme/
+  
+  # Install theme fonts
+  if [[ -d "$theme_source/Fonts" ]]; then
+    sudo cp -r "$theme_source/Fonts"/* /usr/share/fonts/
+  fi
+  
+  # Configure SDDM
+  echo "[Theme]
+Current=sddm-astronaut-theme" | sudo tee /etc/sddm.conf > /dev/null
+  
+  sudo mkdir -p /etc/sddm.conf.d
+  echo "[General]
+InputMethod=qtvirtualkeyboard" | sudo tee /etc/sddm.conf.d/virtualkbd.conf > /dev/null
+  
+  # Enable SDDM
+  echo "=> Enabling SDDM service..."
+  sudo systemctl disable display-manager.service 2>/dev/null || true
+  sudo systemctl enable sddm.service
+  
+  echo "=> SDDM Astronaut theme installed successfully!"
+}
+
 # Function to prompt and install a group
 install_group() {
   local name="$1[@]"; shift
@@ -102,6 +145,12 @@ if [[ "$yn" =~ ^[Yy] ]]; then
   for pkg in "${aur_packages[@]}"; do
     yay -S --needed --noconfirm "$pkg"
   done
+fi
+
+# Install SDDM Astronaut Theme
+read -rp "Install SDDM Astronaut Theme? (y/N) " yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  install_sddm_theme
 fi
 
 # Sync dotfiles
