@@ -35,7 +35,7 @@ network_bt=(
 )
 
 utilities=(
-  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip
+  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip 
 )
 
 media_graphics=(
@@ -55,7 +55,7 @@ gaming=(
 )
 
 aur_packages=(
-  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug
+  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug asusctl
 )
 
 # SDDM theme installation function
