@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# install.sh – Install packages and sync dotfiles for my_hyprland_dots
+# install.sh – Install packages and sync dotfiles for my_hyprland_dots(andriy4k)
 # Usage: ./install.sh
 
 # Determine the script location and set BASE path
