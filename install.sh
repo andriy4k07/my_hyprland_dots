@@ -243,8 +243,6 @@ if [[ "$yn" =~ ^[Yy] ]]; then
   fi
 fi
 
-echo "All tasks complete!"
-
 # Add Windows dualboot to grub
 echo -e "${GREEN}Add Windows dualboot to grub? (y/N)${NC}"
 read -r yn
@@ -287,6 +285,8 @@ if [[ "$yn" =~ ^[Yy] ]]; then
     echo "=> Expected: themes/themes directory"
   fi
 fi
+
+echo "All tasks complete!"
 
 # Launch Hyprland
 echo -e "${GREEN}Launch Hyprland now? (y/N)${NC}"
