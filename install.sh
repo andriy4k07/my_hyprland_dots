@@ -168,8 +168,8 @@ echo -e "${GREEN}Install wallpapers? (Y/n)${NC}"
 read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing wallpapers..."
-  local wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
-  local wallpaper_dest="$HOME/Pictures/wallpaper"
+  wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
+  wallpaper_dest="$HOME/Pictures/wallpaper"
   
   if [[ -f "$wallpaper_source" ]]; then
     echo "=> Copying wallpaper to ~/Pictures/wallpaper/"
@@ -186,7 +186,7 @@ echo -e "${GREEN}Install cursor themes (Bibata-Modern)? (Y/n)${NC}"
 read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing cursor themes..."
-  local cursors_source="$SCRIPT_DIR/themes"
+  cursors_source="$SCRIPT_DIR/themes"
   
   if [[ -d "$cursors_source/Bibata-Modern-Classic" && -d "$cursors_source/Bibata-Modern-Ice" ]]; then
     echo "=> Installing Bibata cursor themes..."
@@ -269,8 +269,8 @@ echo -e "${GREEN}Customize rEFInd theme? (Y/n)${NC}"
 read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Customizing rEFInd theme..."
-  local refind_themes_source="$SCRIPT_DIR/themes/themes"
-  local refind_config_path="/boot/EFI/refind"
+  refind_themes_source="$SCRIPT_DIR/themes/themes"
+  refind_config_path="/boot/EFI/refind"
   
   if [[ -d "$refind_themes_source" ]]; then
     echo "=> Copying rEFInd themes to /boot/EFI/refind/"
