@@ -44,7 +44,7 @@ utilities=(
 )
 
 media_graphics=(
-  firefox flatpak inkscape mpv viewnior swappy cava easyeffects
+  firefox flatpak inkscape mpv viewnior swappy cava easyeffects grim slurp
 )
 
 graphics_vulkan=(
