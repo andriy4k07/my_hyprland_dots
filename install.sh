@@ -245,6 +245,17 @@ fi
 
 echo "All tasks complete!"
 
+# Add Windows dualboot to grub
+echo -e "${GREEN}Add Windows dualboot to grub? (y/N)${NC}"
+read -r yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Setting up Windows dualboot in GRUB..."
+  sudo pacman -Sy --noconfirm os-prober
+  echo 'GRUB_DISABLE_OS_PROBER=false' | sudo tee -a /etc/default/grub
+  sudo grub-mkconfig -o /boot/grub/grub.cfg
+  echo "=> Windows dualboot added to GRUB successfully!"
+fi
+
 # Launch Hyprland
 echo -e "${GREEN}Launch Hyprland now? (y/N)${NC}"
 read -r yn
