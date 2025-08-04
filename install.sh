@@ -154,6 +154,39 @@ if [[ "$yn" =~ ^[Yy] ]]; then
   yay -S --needed --noconfirm asusctl
 fi
 
+# Install wallpapers
+read -rp "Install wallpapers? (y/N) " yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Installing wallpapers..."
+  local wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
+  local wallpaper_dest="$HOME/Pictures/wallpaper"
+  
+  if [[ -f "$wallpaper_source" ]]; then
+    echo "=> Copying wallpaper to ~/Pictures/wallpaper/"
+    mkdir -p "$wallpaper_dest"
+    cp "$wallpaper_source" "$wallpaper_dest/"
+    echo "=> Wallpaper installed successfully!"
+  else
+    echo "=> Warning: wallpaper.jpg not found in $SCRIPT_DIR/wallpapers/"
+  fi
+fi
+
+# Install cursor themes
+read -rp "Install cursor themes (Bibata-Modern)? (y/N) " yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Installing cursor themes..."
+  local cursors_source="$SCRIPT_DIR/themes"
+  
+  if [[ -d "$cursors_source/Bibata-Modern-Classic" && -d "$cursors_source/Bibata-Modern-Ice" ]]; then
+    echo "=> Installing Bibata cursor themes..."
+    sudo mv "$cursors_source"/Bibata-Modern-* /usr/share/icons/
+    echo "=> Bibata cursor themes installed successfully!"
+  else
+    echo "=> Warning: Bibata cursor themes not found in $cursors_source"
+    echo "=> Expected: Bibata-Modern-Classic and Bibata-Modern-Ice directories"
+  fi
+fi
+
 # Install SDDM Astronaut Theme
 read -rp "Install SDDM Astronaut Theme? (y/N) " yn
 if [[ "$yn" =~ ^[Yy] ]]; then
