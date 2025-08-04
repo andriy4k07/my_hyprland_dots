@@ -23,7 +23,7 @@ fi
 
 # Package groups
 base_dev=(
-  amd-ucode base git base-devel rust starship
+  rust starship
 )
 
 display_comp=(
@@ -35,7 +35,7 @@ network_bt=(
 )
 
 utilities=(
-  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip 
+  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip rofi nemo kitty telegram-desktop mako ttf-jetbrains-mono-nerd swww
 )
 
 media_graphics=(
@@ -47,7 +47,7 @@ graphics_vulkan=(
 )
 
 music_audio=(
-  spotify-launcher spotifyd
+  spotify-launcher spotifyd wireplumber pipewire-pulse
 )
 
 gaming=(
@@ -55,7 +55,7 @@ gaming=(
 )
 
 aur_packages=(
-  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug asusctl
+  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug
 )
 
 # SDDM theme installation function
@@ -131,7 +131,7 @@ fi
 # Install official package groups
 install_group base_dev "Base & Development"
 install_group display_comp "Display & Compositor"
-install_group network_bt "Networking & Bluetooth"
+install_group network_bt "Networking & Bluetooth" 
 install_group utilities "Utilities"
 install_group media_graphics "Media & Graphics"
 install_group graphics_vulkan "Mesa & Vulkan Drivers"
@@ -145,6 +145,13 @@ if [[ "$yn" =~ ^[Yy] ]]; then
   for pkg in "${aur_packages[@]}"; do
     yay -S --needed --noconfirm "$pkg"
   done
+fi
+
+# Install asusctl from AUR (separate prompt)
+read -rp "Install asusctl from AUR? (y/N) " yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Installing asusctl..."
+  yay -S --needed --noconfirm asusctl
 fi
 
 # Install SDDM Astronaut Theme
@@ -175,6 +182,18 @@ if [[ "$yn" =~ ^[Yy] ]]; then
       cp -r "$SRC" "$DST"
     fi
   done
+fi
+
+# Add starship init to ~/.bashrc
+read -rp "Add starship init to ~/.bashrc? (y/N) " yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Adding starship init to ~/.bashrc..."
+  if ! grep -q 'eval "$(starship init bash)"' ~/.bashrc 2>/dev/null; then
+    echo 'eval "$(starship init bash)"' >> ~/.bashrc
+    echo "=> Starship init added to ~/.bashrc"
+  else
+    echo "=> Starship init already exists in ~/.bashrc"
+  fi
 fi
 
 echo "All tasks complete!"
