@@ -266,6 +266,28 @@ if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> rEFInd boot manager installed successfully!"
 fi
 
+# Customize rEFInd
+echo -e "${GREEN}Customize rEFInd theme? (y/N)${NC}"
+read -r yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Customizing rEFInd theme..."
+  local refind_themes_source="$SCRIPT_DIR/themes/themes"
+  local refind_config_path="/boot/EFI/refind"
+  
+  if [[ -d "$refind_themes_source" ]]; then
+    echo "=> Copying rEFInd themes to /boot/EFI/refind/"
+    sudo cp -r "$refind_themes_source" "$refind_config_path/"
+    echo "=> Adding Catppuccin Mocha theme to refind.conf..."
+    cd "$refind_config_path"
+    echo 'include themes/catppuccin/mocha.conf' | sudo tee -a refind.conf
+    cd - > /dev/null
+    echo "=> rEFInd theme customized successfully!"
+  else
+    echo "=> Warning: rEFInd themes not found in $refind_themes_source"
+    echo "=> Expected: themes/themes directory"
+  fi
+fi
+
 # Launch Hyprland
 echo -e "${GREEN}Launch Hyprland now? (y/N)${NC}"
 read -r yn
