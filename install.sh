@@ -169,7 +169,7 @@ read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing wallpapers..."
   wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
-  wallpaper_dest="$HOME/Pictures/wallpaper"
+  wallpaper_dest="$HOME/Pictures/wallpapers"
   
   if [[ -f "$wallpaper_source" ]]; then
     echo "=> Copying wallpaper to ~/Pictures/wallpaper/"
