@@ -1,7 +1,10 @@
 {
+	"layer": "top",
+	"position": "top",
 	"height": 40,
 	"width": 1910,
 	"margin-top": 10,
+	"output": "eDP-1",
 
 	"modules-left": ["custom/menu", "hyprland/workspaces", "hyprland/window", "custom/playerctl", "custom/playerlabel"],
 	"modules-center": ["custom/kitty", "custom/nemo"],
@@ -82,7 +85,7 @@
 
 	"pulseaudio": {
 		"scroll-step": 5,
-		"format": "<span color='#6ecf9f'>{icon}</span> {volume}%<span color='#6ecf9f'>  |  </span>",
+		"format": "<span color='#6ecf9f'>{icon}</span>   {volume}%<span color='#6ecf9f'>  |  </span>",
 		"format-icons": {
 			"default": ["", "", ""]
 		},
@@ -122,9 +125,9 @@
 	    "warning": 30,
 	    "critical": 20
 	  },
-	  "format": "<span color='#6ecf9f'>{icon}</span> {capacity}%",
+	  "format": "<span color='#6ecf9f'>{icon}</span>  {capacity}%",
 	  "format-alt": "<span color='#6ecf9f'>{icon}</span>",
-	  "format-charging": "<span color='#6ecf9f'></span> {capacity}%",
+	  "format-charging": "<span color='#6ecf9f'></span>  {capacity}%",
 	  "format-icons": ["", "", "", ""],
 	  "tooltip": true
 	},
