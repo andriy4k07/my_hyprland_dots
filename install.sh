@@ -256,6 +256,16 @@ if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Windows dualboot added to GRUB successfully!"
 fi
 
+# Add rEFInd
+echo -e "${GREEN}Add rEFInd boot manager? (y/N)${NC}"
+read -r yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Installing and configuring rEFInd..."
+  sudo pacman -S --noconfirm refind
+  sudo refind-install
+  echo "=> rEFInd boot manager installed successfully!"
+fi
+
 # Launch Hyprland
 echo -e "${GREEN}Launch Hyprland now? (y/N)${NC}"
 read -r yn
