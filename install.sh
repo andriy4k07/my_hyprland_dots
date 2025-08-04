@@ -14,9 +14,9 @@ NC='\033[0m' # No Color
 
 # 0. Ensure multilib repository is enabled
 if ! grep -Eq "^\[multilib\]" /etc/pacman.conf; then
-  echo -e "${GREEN}The [multilib] repository is not enabled. Enable it now? (y/N)${NC}"
+  echo -e "${GREEN}The [multilib] repository is not enabled. Enable it now? (Y/n)${NC}"
   read -r yn
-  if [[ "$yn" =~ ^[Yy] ]]; then
+  if [[ ! "$yn" =~ ^[Nn] ]]; then
     echo "=> Enabling multilib in /etc/pacman.conf"
     sudo sed -i '/^#\[multilib\]/{s/^#//;n;s/^#//;}' /etc/pacman.conf
     echo "=> Updating package database"
@@ -110,9 +110,9 @@ install_group() {
   local label="$1"; shift
   local pkgs=("${!name}")
   
-  echo -e "${GREEN}Install ${label}? (y/N)${NC}"
+  echo -e "${GREEN}Install ${label}? (Y/n)${NC}"
   read -r yn
-  if [[ "$yn" =~ ^[Yy] ]]; then
+  if [[ ! "$yn" =~ ^[Nn] ]]; then
     echo "=> Installing ${label} packages..."
     sudo pacman -Syu --needed --noconfirm "${pkgs[@]}"
   fi
@@ -120,9 +120,9 @@ install_group() {
 
 # Ensure yay is installed
 if ! command -v yay &> /dev/null; then
-  echo -e "${GREEN}yay is not installed. Install yay now? (y/N)${NC}"
+  echo -e "${GREEN}yay is not installed. Install yay now? (Y/n)${NC}"
   read -r yn
-  if [[ "$yn" =~ ^[Yy] ]]; then
+  if [[ ! "$yn" =~ ^[Nn] ]]; then
     echo "=> Ensuring dependencies: git and base-devel..."
     sudo pacman -Syu --needed --noconfirm git base-devel
     tmpdir=$(mktemp -d)
@@ -146,9 +146,9 @@ install_group music_audio "Music & Audio"
 install_group gaming "Gaming"
 
 # Install AUR packages
-echo -e "${GREEN}Install AUR packages? (y/N)${NC}"
+echo -e "${GREEN}Install AUR packages? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing AUR packages..."
   for pkg in "${aur_packages[@]}"; do
     yay -S --needed --noconfirm "$pkg"
@@ -156,17 +156,17 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Install asusctl from AUR (separate prompt)
-echo -e "${GREEN}Install asusctl from AUR? (y/N)${NC}"
+echo -e "${GREEN}Install asusctl from AUR? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing asusctl..."
   yay -S --needed --noconfirm asusctl
 fi
 
 # Install wallpapers
-echo -e "${GREEN}Install wallpapers? (y/N)${NC}"
+echo -e "${GREEN}Install wallpapers? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing wallpapers..."
   local wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
   local wallpaper_dest="$HOME/Pictures/wallpaper"
@@ -182,9 +182,9 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Install cursor themes
-echo -e "${GREEN}Install cursor themes (Bibata-Modern)? (y/N)${NC}"
+echo -e "${GREEN}Install cursor themes (Bibata-Modern)? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing cursor themes..."
   local cursors_source="$SCRIPT_DIR/themes"
   
@@ -199,16 +199,16 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Install SDDM Astronaut Theme
-echo -e "${GREEN}Install SDDM Astronaut Theme? (y/N)${NC}"
+echo -e "${GREEN}Install SDDM Astronaut Theme? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   install_sddm_theme
 fi
 
 # Sync dotfiles
-echo -e "${GREEN}Sync dotfiles to ~/.config? (y/N)${NC}"
+echo -e "${GREEN}Sync dotfiles to ~/.config? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Syncing dotfiles..."
   
   TARGET="$HOME/.config"
@@ -231,9 +231,9 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Add starship init to ~/.bashrc
-echo -e "${GREEN}Add starship init to ~/.bashrc? (y/N)${NC}"
+echo -e "${GREEN}Add starship init to ~/.bashrc? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Adding starship init to ~/.bashrc..."
   if ! grep -q 'eval "$(starship init bash)"' ~/.bashrc 2>/dev/null; then
     echo 'eval "$(starship init bash)"' >> ~/.bashrc
@@ -244,9 +244,9 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Add Windows dualboot to grub
-echo -e "${GREEN}Add Windows dualboot to grub? (y/N)${NC}"
+echo -e "${GREEN}Add Windows dualboot to grub? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Setting up Windows dualboot in GRUB..."
   sudo pacman -Sy --noconfirm os-prober
   echo 'GRUB_DISABLE_OS_PROBER=false' | sudo tee -a /etc/default/grub
@@ -255,9 +255,9 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Add rEFInd
-echo -e "${GREEN}Add rEFInd boot manager? (y/N)${NC}"
+echo -e "${GREEN}Add rEFInd boot manager? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing and configuring rEFInd..."
   sudo pacman -S --noconfirm refind
   sudo refind-install
@@ -265,9 +265,9 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Customize rEFInd
-echo -e "${GREEN}Customize rEFInd theme? (y/N)${NC}"
+echo -e "${GREEN}Customize rEFInd theme? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Customizing rEFInd theme..."
   local refind_themes_source="$SCRIPT_DIR/themes/themes"
   local refind_config_path="/boot/EFI/refind"
@@ -289,9 +289,9 @@ fi
 echo "All tasks complete!"
 
 # Launch Hyprland
-echo -e "${GREEN}Launch Hyprland now? (y/N)${NC}"
+echo -e "${GREEN}Launch Hyprland now? (Y/n)${NC}"
 read -r yn
-if [[ "$yn" =~ ^[Yy] ]]; then
+if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Launching Hyprland..."
   Hyprland
 fi
