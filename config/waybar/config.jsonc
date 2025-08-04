@@ -134,7 +134,7 @@
 
 	"clock": {
 		"interval": 1,
-		"format": "<span color='#6ecf9f'></span> {:%H:%M:%S}",
+		"format": "<span color='#6ecf9f'></span>  {:%H:%M:%S}",
 		"tooltip-format": "<big><span color='#6ecf9f'>{:%Y %B}</span></big>\n<tt><small>{calendar}</small></tt>",
 		"format-alt": "<span color='#6ecf9f'></span> <span color='#6ecf9f'>{:%Y-%m-%d}</span>",
 
