@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
-# install.sh – Install packages and sync dotfiles for my_hyprland_dots(andriy4k)
+# install.sh – Install packages and sync dotfiles for my_hyprland_dots
 # Usage: ./install.sh
 
 # Determine the script location and set BASE path
@@ -8,9 +8,14 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BASE="$SCRIPT_DIR/config"
 mkdir -p "$BASE"
 
+# Colors for output
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
 # 0. Ensure multilib repository is enabled
 if ! grep -Eq "^\[multilib\]" /etc/pacman.conf; then
-  read -rp "The [multilib] repository is not enabled. Enable it now? (y/N) " yn
+  echo -e "${GREEN}The [multilib] repository is not enabled. Enable it now? (y/N)${NC}"
+  read -r yn
   if [[ "$yn" =~ ^[Yy] ]]; then
     echo "=> Enabling multilib in /etc/pacman.conf"
     sudo sed -i '/^#\[multilib\]/{s/^#//;n;s/^#//;}' /etc/pacman.conf
@@ -105,7 +110,8 @@ install_group() {
   local label="$1"; shift
   local pkgs=("${!name}")
   
-  read -rp "Install ${label}? (y/N) " yn
+  echo -e "${GREEN}Install ${label}? (y/N)${NC}"
+  read -r yn
   if [[ "$yn" =~ ^[Yy] ]]; then
     echo "=> Installing ${label} packages..."
     sudo pacman -Syu --needed --noconfirm "${pkgs[@]}"
@@ -114,7 +120,8 @@ install_group() {
 
 # Ensure yay is installed
 if ! command -v yay &> /dev/null; then
-  read -rp "yay is not installed. Install yay now? (y/N) " yn
+  echo -e "${GREEN}yay is not installed. Install yay now? (y/N)${NC}"
+  read -r yn
   if [[ "$yn" =~ ^[Yy] ]]; then
     echo "=> Ensuring dependencies: git and base-devel..."
     sudo pacman -Syu --needed --noconfirm git base-devel
@@ -139,7 +146,8 @@ install_group music_audio "Music & Audio"
 install_group gaming "Gaming"
 
 # Install AUR packages
-read -rp "Install AUR packages? (y/N) " yn
+echo -e "${GREEN}Install AUR packages? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Installing AUR packages..."
   for pkg in "${aur_packages[@]}"; do
@@ -148,14 +156,16 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Install asusctl from AUR (separate prompt)
-read -rp "Install asusctl from AUR? (y/N) " yn
+echo -e "${GREEN}Install asusctl from AUR? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Installing asusctl..."
   yay -S --needed --noconfirm asusctl
 fi
 
 # Install wallpapers
-read -rp "Install wallpapers? (y/N) " yn
+echo -e "${GREEN}Install wallpapers? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Installing wallpapers..."
   local wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
@@ -172,7 +182,8 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Install cursor themes
-read -rp "Install cursor themes (Bibata-Modern)? (y/N) " yn
+echo -e "${GREEN}Install cursor themes (Bibata-Modern)? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Installing cursor themes..."
   local cursors_source="$SCRIPT_DIR/themes"
@@ -188,13 +199,15 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Install SDDM Astronaut Theme
-read -rp "Install SDDM Astronaut Theme? (y/N) " yn
+echo -e "${GREEN}Install SDDM Astronaut Theme? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   install_sddm_theme
 fi
 
 # Sync dotfiles
-read -rp "Sync dotfiles to ~/.config? (y/N) " yn
+echo -e "${GREEN}Sync dotfiles to ~/.config? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Syncing dotfiles..."
   
@@ -218,7 +231,8 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 # Add starship init to ~/.bashrc
-read -rp "Add starship init to ~/.bashrc? (y/N) " yn
+echo -e "${GREEN}Add starship init to ~/.bashrc? (y/N)${NC}"
+read -r yn
 if [[ "$yn" =~ ^[Yy] ]]; then
   echo "=> Adding starship init to ~/.bashrc..."
   if ! grep -q 'eval "$(starship init bash)"' ~/.bashrc 2>/dev/null; then
@@ -230,3 +244,11 @@ if [[ "$yn" =~ ^[Yy] ]]; then
 fi
 
 echo "All tasks complete!"
+
+# Launch Hyprland
+echo -e "${GREEN}Launch Hyprland now? (y/N)${NC}"
+read -r yn
+if [[ "$yn" =~ ^[Yy] ]]; then
+  echo "=> Launching Hyprland..."
+  Hyprland
+fi
