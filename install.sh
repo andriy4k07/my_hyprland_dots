@@ -40,7 +40,7 @@ network_bt=(
 )
 
 utilities=(
-  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip rofi nemo kitty telegram-desktop mako ttf-jetbrains-mono-nerd swww  noto-fonts-emoji less
+  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip rofi nemo kitty telegram-desktop mako ttf-jetbrains-mono-nerd swww  noto-fonts-emoji less signal-desktop
 )
 
 media_graphics=(
