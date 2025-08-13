@@ -12,7 +12,7 @@
 
 window#waybar {
   border-radius: 15px;
-  background-color: @bg;
+  background-color: rgba(30, 30, 46, 0.75); /* Прозорий варіант @bg */
 }
 
 /* Загальні налаштування кнопок-модулів */
