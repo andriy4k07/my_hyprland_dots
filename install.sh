@@ -64,7 +64,7 @@ fonts=(
 )
 
 graphics_vulkan=(
-  mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon
+  mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools
 )
 
 gaming=(
