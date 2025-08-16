@@ -28,7 +28,7 @@ fi
 
 # Package groups
 base_dev=(
-  rust starship
+  rust starship devtools acpi proton-vpn-gtk-app discord nextcloud-client proton-pass-bin proton-authenticator-bin less obsidian
 )
 
 display_comp=(
