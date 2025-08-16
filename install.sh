@@ -148,13 +148,16 @@ if ! command -v yay &> /dev/null; then
 fi
 
 # Install official package groups
-install_group base_dev "Base & Development"
-install_group display_comp "Display & Compositor"
+install_group wayland  "Hyprland & Waybar"
+install_group audio_video  "Audio & Video"
 install_group network_bt "Networking & Bluetooth" 
 install_group utilities "Utilities"
-install_group media_graphics "Media & Graphics"
+install_group dev_tools  "Base & Development"
+install_group social "Social"
+install_group apps  "Apps"
+install_group proton  "Proton apps"
+install_group fonts  "Fonts"
 install_group graphics_vulkan "Mesa & Vulkan Drivers"
-install_group music_audio "Music & Audio"
 install_group gaming "Gaming"
 
 # Install AUR packages
