@@ -28,7 +28,7 @@ fi
 
 # Package groups
 wayland=(
-  hyprland hyprpicker waybar wlsunset swww grim slurp kitty  swappy mako rofi sddm xorg-server-xephyr xorg-xhost qt6-virtualkeyboard 
+  hyprland hyprpicker waybar wlsunset swww grim slurp kitty swappy mako rofi sddm xorg-server-xephyr xorg-xhost qt6-virtualkeyboard 
 )
 
 audio_video=(
@@ -116,6 +116,23 @@ InputMethod=qtvirtualkeyboard" | sudo tee /etc/sddm.conf.d/virtualkbd.conf > /de
   echo "=> SDDM Astronaut theme installed successfully!"
 }
 
+# Function to install all groups at once
+install_all_groups() {
+  echo "=> Installing all packages..."
+  sudo pacman -Syu --needed --noconfirm \
+    "${wayland[@]}" \
+    "${audio_video[@]}" \
+    "${network_bt[@]}" \
+    "${utilities[@]}" \
+    "${dev_tools[@]}" \
+    "${social[@]}" \
+    "${apps[@]}" \
+    "${proton[@]}" \
+    "${fonts[@]}" \
+    "${graphics_vulkan[@]}" \
+    "${gaming[@]}"
+}
+
 # Function to prompt and install a group
 install_group() {
   local name="$1[@]"; shift
@@ -147,18 +164,25 @@ if ! command -v yay &> /dev/null; then
   fi
 fi
 
-# Install official package groups
-install_group wayland  "Hyprland & Waybar"
-install_group audio_video  "Audio & Video"
-install_group network_bt "Networking & Bluetooth" 
-install_group utilities "Utilities"
-install_group dev_tools  "Base & Development"
-install_group social "Social"
-install_group apps  "Apps"
-install_group proton  "Proton apps"
-install_group fonts  "Fonts"
-install_group graphics_vulkan "Mesa & Vulkan Drivers"
-install_group gaming "Gaming"
+# Install official packages
+echo -e "${GREEN}Install ALL packages at once? (Y/n)${NC}"
+read -r yn
+if [[ ! "$yn" =~ ^[Nn] ]]; then
+  install_all_groups
+else
+  # Individual group installation
+  install_group wayland "Hyprland & Waybar"
+  install_group audio_video "Audio & Video"
+  install_group network_bt "Networking & Bluetooth"
+  install_group utilities "Utilities"
+  install_group dev_tools "Base & Development"
+  install_group social "Social"
+  install_group apps "Apps"
+  install_group proton "Proton apps"
+  install_group fonts "Fonts"
+  install_group graphics_vulkan "Mesa & Vulkan Drivers"
+  install_group gaming "Gaming"
+fi
 
 # Install AUR packages
 echo -e "${GREEN}Install AUR packages? (Y/n)${NC}"
