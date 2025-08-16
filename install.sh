@@ -27,12 +27,12 @@ if ! grep -Eq "^\[multilib\]" /etc/pacman.conf; then
 fi
 
 # Package groups
-base_dev=(
-  rust starship devtools acpi proton-vpn-gtk-app discord nextcloud-client proton-pass-bin proton-authenticator-bin less obsidian
+wayland=(
+  hyprland hyprpicker waybar wlsunset swww grim slurp kitty  swappy mako rofi sddm xorg-server-xephyr xorg-xhost qt6-virtualkeyboard 
 )
 
-display_comp=(
-  hyprland hyprpicker waybar wlsunset xorg-server-xephyr xorg-xhost sddm refind qt6-virtualkeyboard
+audio_video=(
+  pipewire-pulse wireplumber easyeffects mpv cava spotify-launcher
 )
 
 network_bt=(
@@ -40,19 +40,31 @@ network_bt=(
 )
 
 utilities=(
-  brightnessctl btop htop cliphist evtest micro nano vim uwufetch unrar unzip rofi nemo kitty telegram-desktop mako ttf-jetbrains-mono-nerd swww  noto-fonts-emoji less signal-desktop
+  acpi brightnessctl btop htop cliphist evtest uwufetch micro nano vim unrar unzip nemo less
 )
 
-media_graphics=(
-  firefox flatpak inkscape mpv viewnior swappy cava easyeffects grim slurp
+dev_tools=(
+  rust starship devtools
+)
+
+social=(
+  discord telegram-desktop signal-desktop 
+)
+
+apps=(
+  firefox obsidian inkscape viewnior flatpak nextcloud-client
+)
+
+proton=(
+  proton-pass-bin proton-authenticator-bin proton-vpn-gtk-app 
+)
+
+fonts=(
+  ttf-jetbrains-mono-nerd noto-fonts-emoji ttf-liberation
 )
 
 graphics_vulkan=(
   mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon
-)
-
-music_audio=(
-  spotify-launcher spotifyd wireplumber pipewire-pulse
 )
 
 gaming=(
