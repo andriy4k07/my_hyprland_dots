@@ -28,7 +28,7 @@ fi
 
 # Package groups
 wayland=(
-  hyprland hyprpicker waybar wlsunset swww grim slurp kitty swappy mako rofi sddm xorg-server-xephyr xorg-xhost qt6-virtualkeyboard 
+  hyprland hyprpicker waybar wlsunset swww grim slurp kitty swappy mako rofi sddm xorg-server-xephyr xorg-xhost qt6-virtualkeyboard rofimoji
 )
 
 audio_video=(
