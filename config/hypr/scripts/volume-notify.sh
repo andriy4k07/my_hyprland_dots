@@ -11,11 +11,11 @@ CUR=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ \
 # 2) Вирахувати нову гучність із cap=120
 case "$1" in
   up)
-    NEW=$(( CUR + 5 ))
+    NEW=$(( CUR + 2 ))
     (( NEW > 120 )) && NEW=120
     ;;
   down)
-    NEW=$(( CUR - 5 ))
+    NEW=$(( CUR - 2 ))
     (( NEW < 0 ))   && NEW=0
     ;;
   *)
