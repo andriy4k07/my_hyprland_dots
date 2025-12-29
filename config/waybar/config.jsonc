@@ -116,7 +116,8 @@
 	"hyprland/language": {
 		"format": "<span color='#6ecf9f'>󰌏</span> {}<span color='#6ecf9f'>  |  </span>",
 		"format-en": "EN",
-		"format-uk": "UA"
+		"format-uk": "UA",
+		"on-click": "~/.config/hypr/scripts/lang.sh"
 	},
 
 	"battery": {
@@ -128,9 +129,10 @@
 	    "critical": 20
 	  },
 	  "format": "<span color='#6ecf9f'>{icon}</span>  {capacity}%",
-	  "format-alt": "<span color='#6ecf9f'>{icon}</span>",
+	  // "format-alt": "<span color='#6ecf9f'>{icon}</span>",
 	  "format-charging": "<span color='#6ecf9f'></span>  {capacity}%",
 	  "format-icons": ["", "", "", ""],
+	  "on-click": "~/.config/hypr/scripts/batery_info.sh",
 	  "tooltip": true
 	},
 
