@@ -93,4 +93,4 @@ Alternatively, you can use the provided `install.sh` to prompt-install packages 
 
 ---
 
-*Last updated: 04-08-2025*
+*Last updated: 29-12-2025*
