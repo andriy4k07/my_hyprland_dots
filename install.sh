@@ -111,6 +111,27 @@ install_virtualization() {
   echo "=> Virtualization setup complete! Log out and back in for group changes to take effect."
 }
 
+# Battery charge limit function (80%)
+setup_battery_threshold() {
+  local threshold_file="/sys/class/power_supply/BAT0/charge_control_end_threshold"
+  local rules_file="/etc/udev/rules.d/99-asus-battery-threshold.rules"
+
+  if [[ ! -f "$threshold_file" ]]; then
+    echo "=> Warning: $threshold_file not found. Your device may not support this feature."
+    return 1
+  fi
+
+  echo "=> Creating udev rule for 80% charge limit..."
+  echo 'ACTION=="add|change", SUBSYSTEM=="power_supply", KERNEL=="BAT0", ATTR{charge_control_end_threshold}!="80", ATTR{charge_control_end_threshold}="80"' \
+    | sudo tee "$rules_file" > /dev/null
+
+  echo "=> Reloading udev rules..."
+  sudo udevadm control --reload-rules
+  sudo udevadm trigger --subsystem-match=power_supply
+
+  echo "=> Battery charge limit set to 80% successfully!"
+}
+
 # SDDM theme installation function
 install_sddm_theme() {
   local date=$(date +%s)
@@ -243,6 +264,13 @@ echo -e "${GREEN}Install and configure QEMU/KVM virtualization? (Y/n)${NC}"
 read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   install_virtualization
+fi
+
+# Set battery charge limit to 80%
+echo -e "${GREEN}Set battery charge limit to 80%? (Y/n)${NC}"
+read -r yn
+if [[ ! "$yn" =~ ^[Nn] ]]; then
+  setup_battery_threshold
 fi
 
 # Install wallpapers
