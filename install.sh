@@ -28,7 +28,8 @@ fi
 
 # Package groups
 wayland=(
-  hyprland hyprpicker waybar wlsunset swww grim slurp kitty swappy mako rofi sddm xorg-server-xephyr xorg-xhost qt6-virtualkeyboard rofimoji
+  hyprland hyprpicker waybar wlsunset swww grim slurp kitty swappy mako rofi sddm
+  xorg-server-xephyr xorg-xhost qt6-virtualkeyboard rofimoji
 )
 
 audio_video=(
@@ -36,11 +37,12 @@ audio_video=(
 )
 
 network_bt=(
-  inetutils net-tools network-manager-applet blueman bluez-utils
+  inetutils net-tools network-manager-applet blueman bluez-utils avahi nss-mdns
 )
 
 utilities=(
-  acpi brightnessctl btop htop cliphist evtest uwufetch micro nano vim unrar unzip nemo less
+  acpi brightnessctl btop htop cliphist evtest micro nano vim unrar unzip nemo less
+  gvfs-afc tesseract tesseract-data-eng tesseract-data-ukr dmidecode
 )
 
 dev_tools=(
@@ -48,7 +50,7 @@ dev_tools=(
 )
 
 social=(
-  discord telegram-desktop signal-desktop 
+  discord telegram-desktop signal-desktop
 )
 
 apps=(
@@ -56,7 +58,7 @@ apps=(
 )
 
 proton=(
-  proton-pass-bin proton-authenticator-bin proton-vpn-gtk-app 
+  proton-pass-bin proton-authenticator-bin proton-vpn-gtk-app
 )
 
 fonts=(
@@ -64,55 +66,89 @@ fonts=(
 )
 
 graphics_vulkan=(
-  mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools
+  mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon
+  vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools
 )
 
 gaming=(
   steam
 )
 
-aur_packages=(
-  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git waypaper wlogout yay yay-debug
+virtualization=(
+  qemu-full virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libvirt
 )
+
+aur_packages=(
+  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git
+  waypaper wlogout yay yay-debug peaclock pipes.sh
+)
+
+# QEMU/KVM setup function
+install_virtualization() {
+  echo "=> Installing virtualization packages..."
+  sudo pacman -S --needed --noconfirm "${virtualization[@]}"
+
+  echo "=> Loading KVM kernel modules..."
+  sudo modprobe kvm
+  sudo modprobe kvm_amd
+
+  echo "=> Persisting KVM modules across reboots..."
+  echo -e "kvm\nkvm_amd" | sudo tee /etc/modules-load.d/kvm.conf
+
+  echo "=> Adding $USER to libvirt group..."
+  sudo usermod -aG libvirt "$USER"
+
+  echo "=> Enabling and starting libvirtd..."
+  sudo systemctl enable --now libvirtd
+
+  echo "=> libvirtd status:"
+  systemctl status libvirtd --no-pager
+
+  echo "=> Starting and setting default NAT network to autostart..."
+  sudo virsh net-start default 2>/dev/null || echo "   (default network may already be running)"
+  sudo virsh net-autostart default
+
+  echo "=> Virtualization setup complete! Log out and back in for group changes to take effect."
+}
 
 # SDDM theme installation function
 install_sddm_theme() {
   local date=$(date +%s)
   local theme_source="$SCRIPT_DIR/themes/sddm-astronaut-theme"
-  
+
   if [[ ! -d "$theme_source" ]]; then
     echo "=> Error: SDDM theme not found at $theme_source"
     echo "=> Please copy the theme files to your dotfiles directory first"
     return 1
   fi
-  
+
   echo "=> Installing SDDM theme dependencies..."
   sudo pacman --noconfirm --needed -S qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg
-  
+
   echo "=> Installing SDDM Astronaut theme from dotfiles..."
   [ -d /usr/share/sddm/themes/sddm-astronaut-theme ] && sudo mv /usr/share/sddm/themes/sddm-astronaut-theme /usr/share/sddm/themes/sddm-astronaut-theme_$date
-  
+
   sudo mkdir -p /usr/share/sddm/themes/sddm-astronaut-theme
   sudo cp -r "$theme_source"/* /usr/share/sddm/themes/sddm-astronaut-theme/
-  
+
   # Install theme fonts
   if [[ -d "$theme_source/Fonts" ]]; then
     sudo cp -r "$theme_source/Fonts"/* /usr/share/fonts/
   fi
-  
+
   # Configure SDDM
   echo "[Theme]
 Current=sddm-astronaut-theme" | sudo tee /etc/sddm.conf > /dev/null
-  
+
   sudo mkdir -p /etc/sddm.conf.d
   echo "[General]
 InputMethod=qtvirtualkeyboard" | sudo tee /etc/sddm.conf.d/virtualkbd.conf > /dev/null
-  
+
   # Enable SDDM
   echo "=> Enabling SDDM service..."
   sudo systemctl disable display-manager.service 2>/dev/null || true
   sudo systemctl enable sddm.service
-  
+
   echo "=> SDDM Astronaut theme installed successfully!"
 }
 
@@ -138,7 +174,7 @@ install_group() {
   local name="$1[@]"; shift
   local label="$1"; shift
   local pkgs=("${!name}")
-  
+
   echo -e "${GREEN}Install ${label}? (Y/n)${NC}"
   read -r yn
   if [[ ! "$yn" =~ ^[Nn] ]]; then
@@ -202,6 +238,13 @@ if [[ ! "$yn" =~ ^[Nn] ]]; then
   yay -S --needed --noconfirm asusctl
 fi
 
+# Install and configure QEMU/KVM virtualization
+echo -e "${GREEN}Install and configure QEMU/KVM virtualization? (Y/n)${NC}"
+read -r yn
+if [[ ! "$yn" =~ ^[Nn] ]]; then
+  install_virtualization
+fi
+
 # Install wallpapers
 echo -e "${GREEN}Install wallpapers? (Y/n)${NC}"
 read -r yn
@@ -209,7 +252,7 @@ if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing wallpapers..."
   wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
   wallpaper_dest="$HOME/Pictures/wallpapers"
-  
+
   if [[ -f "$wallpaper_source" ]]; then
     echo "=> Copying wallpaper to ~/Pictures/wallpaper/"
     mkdir -p "$wallpaper_dest"
@@ -226,7 +269,7 @@ read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Installing cursor themes..."
   cursors_source="$SCRIPT_DIR/themes"
-  
+
   if [[ -d "$cursors_source/Bibata-Modern-Classic" && -d "$cursors_source/Bibata-Modern-Ice" ]]; then
     echo "=> Installing Bibata cursor themes..."
     sudo mv "$cursors_source"/Bibata-Modern-* /usr/share/icons/
@@ -249,20 +292,17 @@ echo -e "${GREEN}Sync dotfiles to ~/.config? (Y/n)${NC}"
 read -r yn
 if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Syncing dotfiles..."
-  
+
   TARGET="$HOME/.config"
   for item in hypr waybar rofi starship.toml swaylock mako cava kitty neofetch; do
     SRC="$BASE/$item"
     DST="$TARGET/$item"
-    
+
     if [[ -f "$SRC" ]]; then
-      # Copy single file
       mkdir -p "$(dirname "$DST")"
       cp -f "$SRC" "$DST"
     elif [[ -d "$SRC" ]]; then
-      # Copy directory recursively
       mkdir -p "$TARGET"
-      # Remove destination if exists to ensure clean copy
       [[ -e "$DST" ]] && rm -rf "$DST"
       cp -r "$SRC" "$DST"
     fi
@@ -310,7 +350,7 @@ if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Customizing rEFInd theme..."
   refind_themes_source="$SCRIPT_DIR/themes/themes"
   refind_config_path="/boot/EFI/refind"
-  
+
   if [[ -d "$refind_themes_source" ]]; then
     echo "=> Copying rEFInd themes to /boot/EFI/refind/"
     sudo cp -r "$refind_themes_source" "$refind_config_path/"
