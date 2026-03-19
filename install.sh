@@ -62,12 +62,12 @@ proton=(
 )
 
 fonts=(
-  ttf-jetbrains-mono-nerd noto-fonts-emoji ttf-liberation
+  ttf-jetbrains-mono-nerd noto-fonts-emoji ttf-liberation ttf-jetbrains-mono ttf-dejavu ttf-liberation noto-fonts ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono
 )
 
 graphics_vulkan=(
-  mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon
-  vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools
+  mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
+  vulkan-icd-loader lib32-vulkan-icd-loader libva-mesa-driver lib32-libva-mesa-driver
 )
 
 gaming=(
@@ -75,12 +75,12 @@ gaming=(
 )
 
 virtualization=(
-  qemu-full virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libvirt
+  qemu-full virt-manager virt-viewer dnsmasq vde2 openbsd-netcat libvirt
 )
 
 aur_packages=(
-  brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git
-  waypaper wlogout yay yay-debug peaclock pipes.sh
+  brave-bin catppuccin-gtk-theme-mocha neofetch touchegg-gce-git
+  waypaper wlogout yay yay-debug peaclock pipes.sh proton-pass proton-authenticator-bin
 )
 
 # QEMU/KVM setup function
@@ -322,7 +322,7 @@ if [[ ! "$yn" =~ ^[Nn] ]]; then
   echo "=> Syncing dotfiles..."
 
   TARGET="$HOME/.config"
-  for item in hypr waybar rofi starship.toml swaylock mako cava kitty neofetch; do
+  for item in hypr waybar rofi starship.toml  mako cava kitty neofetch; do
     SRC="$BASE/$item"
     DST="$TARGET/$item"
 
