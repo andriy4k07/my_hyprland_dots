@@ -90,14 +90,14 @@ run_cmd() {
 chosen="$(run_rofi)"
 case ${chosen} in
     $shutdown)
-        run_cmd --shutdown
+        run_cmd --poweroff
         ;;
     $reboot)
         run_cmd --reboot
         ;;
     $lock)
             sleep 0.2
-            swaylock
+            hyprlock
         ;;
     $suspend)
         run_cmd --suspend

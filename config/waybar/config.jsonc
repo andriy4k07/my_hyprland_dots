@@ -14,8 +14,8 @@
 	"expand-left": false,
 	"expand-right": false,
 
-	"modules-left": ["custom/menu", "hyprland/workspaces", "hyprland/window", "custom/playerctl", "custom/playerlabel"],
-	"modules-center": ["custom/kitty", "custom/nemo"],
+	"modules-left": ["custom/menu", "hyprland/workspaces", "custom/playerlabel", "custom/github"],
+	"modules-center": ["custom/kitty", "custom/nemo", "cpu", "memory",  "temperature", "custom/weather"],
 	"modules-right": ["tray", "pulseaudio", "pulseaudio#microphone", "backlight", "hyprland/language", "battery", "clock", "custom/power"],
 
 	"custom/menu": {
@@ -76,6 +76,36 @@
 		}
 	},
 
+	"custom/github": {
+	    "format": "{}",
+	    "return-type": "json",
+	    "interval": 120,
+	    "exec": "~/.config/waybar/scripts/github-notify.sh",
+	    "on-click": "~/.config/waybar/scripts/github-notify.sh notify",
+	    "tooltip": false
+	},
+
+	"cpu": {
+	    "interval": 2,
+	    "format": "<span color='#6ecf9f'>󰍛</span> {usage}%",
+	    "tooltip": false,
+	    "on-click": "kitty --title=kitty-float -e btop"
+	},
+	
+	"memory": {
+	    "interval": 5,
+	    "format": "<span color='#6ecf9f'>󰘚</span> {percentage}%",
+	    "tooltip-format": "RAM: {used:0.1f}GB / {total:0.1f}GB",
+	    "on-click": "kitty --title=kitty-float -e btop"
+	},
+
+	"temperature": {
+	    "hwmon-path": "/sys/class/hwmon/hwmon1/temp1_input",
+	    "critical-threshold": 80,
+	    "format": "<span color='#6ecf9f'></span> {temperatureC}°C",
+	    "tooltip": false
+	},
+
 	"custom/kitty": {
 		"format": "<span color='#6ecf9f'></span>",
 		"on-click": "exec kitty --title=kitty-float",
@@ -88,6 +118,13 @@
 		"tooltip": false
 	},
 
+	"custom/weather": {
+	    "format": "{}",
+	    "interval": 900,
+	    "exec": "~/.config/waybar/scripts/weather.sh",
+	    "tooltip": false
+	},
+
 	"tray": {
 		"icon-size": 18,
 		"spacing": 10
@@ -95,7 +132,7 @@
 
 	"pulseaudio": {
 		"scroll-step": 2,
-		"format": "<span color='#6ecf9f'>{icon}</span>   {volume}%<span color='#6ecf9f'>  |  </span>",
+		"format": "<span color='#6ecf9f'>{icon}</span> {volume}%<span color='#6ecf9f'>|</span>",
 		"format-icons": {
 			"default": ["", "", ""]
 		},
@@ -105,7 +142,7 @@
 
 	"pulseaudio#microphone": {
 	    "scroll-step": 5,
-	    "format": "{format_source}<span color='#6ecf9f'>  |  </span>",
+	    "format": "{format_source}<span color='#6ecf9f'>| </span>",
 	    "format-source": "",
 	    "format-source-muted": "",
 	    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
@@ -122,7 +159,7 @@
 	},
 
 	"hyprland/language": {
-		"format": "<span color='#6ecf9f'>󰌏</span> {}<span color='#6ecf9f'>  |  </span>",
+		"format": "<span color='#6ecf9f'>󰌏</span> {}<span color='#6ecf9f'>|</span>",
 		"format-en": "EN",
 		"format-uk": "UA",
 		"on-click": "~/.config/hypr/scripts/lang.sh"
@@ -136,9 +173,9 @@
 	    "warning": 30,
 	    "critical": 20
 	  },
-	  "format": "<span color='#6ecf9f'>{icon}</span>  {capacity}%",
+	  "format": "<span color='#6ecf9f'>{icon}</span> {capacity}%",
 	  // "format-alt": "<span color='#6ecf9f'>{icon}</span>",
-	  "format-charging": "<span color='#6ecf9f'></span>  {capacity}%",
+	  "format-charging": "<span color='#6ecf9f'></span>{capacity}%",
 	  "format-icons": ["", "", "", ""],
 	  "on-click": "~/.config/hypr/scripts/batery_info.sh",
 	  "tooltip": true
@@ -146,9 +183,9 @@
 
 	"clock": {
 		"interval": 1,
-		"format": "<span color='#6ecf9f'></span>  {:%H:%M:%S}",
+		"format": "<span color='#6ecf9f'></span> {:%H:%M:%S}",
 		"tooltip-format": "<big><span color='#6ecf9f'>{:%Y %B}</span></big>\n<tt><small>{calendar}</small></tt>",
-		"format-alt": "<span color='#6ecf9f'></span> <span color='#6ecf9f'>{:%Y-%m-%d}</span>",
+		"format-alt": "<span color='#6ecf9f'> </span><span color='#6ecf9f'>{:%Y-%m-%d}</span>",
 
 		"calendar": {
 			"mode": "month",
