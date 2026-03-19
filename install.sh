@@ -42,7 +42,7 @@ network_bt=(
 
 utilities=(
   acpi brightnessctl btop htop cliphist evtest micro nano vim unrar unzip nemo less
-  gvfs-afc tesseract tesseract-data-eng tesseract-data-ukr dmidecode
+ gvfs-afc tesseract tesseract-data-eng tesseract-data-ukr dmidecode
 )
 
 dev_tools=(
@@ -58,7 +58,7 @@ apps=(
 )
 
 proton=(
-  proton-pass-bin proton-authenticator-bin proton-vpn-gtk-app
+   proton-vpn-gtk-app
 )
 
 fonts=(
@@ -80,7 +80,7 @@ virtualization=(
 
 aur_packages=(
   brave-bin catppuccin-gtk-theme-mocha neofetch touchegg-gce-git
-  waypaper wlogout yay yay-debug peaclock pipes.sh proton-pass proton-authenticator-bin
+  wlogout yay yay-debug peaclock pipes.sh proton-pass proton-authenticator
 )
 
 # QEMU/KVM setup function
