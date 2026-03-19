@@ -41,29 +41,29 @@ Offers to install all package groups at once, or lets you pick each group indivi
 
 | Group | Packages |
 |---|---|
-| Hyprland & Wayland | `hyprland`, `waybar`, `rofi`, `kitty`, `swww`, `mako`, `grim`, `slurp`, `sddm`, `rofimoji` and more |
+| Hyprland & Wayland | `hyprland`, `hyprpicker`, `waybar`, `wlsunset`, `rofi`, `kitty`, `swww`, `mako`, `grim`, `slurp`, `swappy`, `sddm`, `rofimoji`, `xorg-server-xephyr`, `xorg-xhost`, `qt6-virtualkeyboard` |
 | Audio & Video | `pipewire-pulse`, `wireplumber`, `easyeffects`, `mpv`, `cava`, `spotify-launcher` |
-| Networking & Bluetooth | `network-manager-applet`, `blueman`, `bluez-utils`, `avahi`, `nss-mdns` |
-| Utilities | `btop`, `htop`, `brightnessctl`, `cliphist`, `nemo`, `tesseract` (+ eng/ukr data), `gvfs-afc`, `dmidecode` and more |
+| Networking & Bluetooth | `inetutils`, `net-tools`, `network-manager-applet`, `blueman`, `bluez-utils`, `avahi`, `nss-mdns` |
+| Utilities | `acpi`, `btop`, `htop`, `brightnessctl`, `cliphist`, `evtest`, `micro`, `nano`, `vim`, `unrar`, `unzip`, `nemo`, `less`, `gvfs-afc`, `tesseract` (+ eng/ukr data), `dmidecode` |
 | Base & Development | `rust`, `starship`, `devtools` |
 | Social | `discord`, `telegram-desktop`, `signal-desktop` |
 | Apps | `firefox`, `obsidian`, `inkscape`, `viewnior`, `flatpak`, `nextcloud-client` |
-| Proton | `proton-pass-bin`, `proton-authenticator-bin`, `proton-vpn-gtk-app` |
-| Fonts | `ttf-jetbrains-mono-nerd`, `noto-fonts-emoji`, `ttf-liberation` |
-| Mesa & Vulkan (AMD) | `mesa`, `mesa-vdpau`, `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon` and more |
+| Proton | `proton-pass`, `proton-authenticator`, `proton-vpn-gtk-app` |
+| Fonts | `ttf-jetbrains-mono-nerd`, `ttf-jetbrains-mono`, `ttf-dejavu`, `ttf-liberation`, `noto-fonts`, `noto-fonts-emoji`, `ttf-nerd-fonts-symbols`, `ttf-nerd-fonts-symbols-mono` |
+| Mesa & Vulkan (AMD) | `mesa`, `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `libva-mesa-driver`, `lib32-libva-mesa-driver` |
 | Gaming | `steam` |
 
 #### 3. AUR packages
 Installs AUR packages via `yay`. If `yay` is not found, the script offers to build and install it automatically from the AUR.
 
-AUR packages included: `brave-bin`, `catppuccin-gtk-theme-mocha`, `neofetch`, `swaylock-effects`, `touchegg-gce-git`, `waypaper`, `wlogout`, `peaclock`, `pipes.sh`, `yay`, `yay-debug`
+AUR packages included: `brave-bin`, `catppuccin-gtk-theme-mocha`, `neofetch`, `touchegg-gce-git`, `waypaper`, `wlogout`, `peaclock`, `pipes.sh`, `yay`, `yay-debug`, `proton-pass`, `proton-authenticator-bin`
 
 #### 4. asusctl
 Separately prompts to install `asusctl` (ASUS laptop power/fan control utility) from the AUR.
 
 #### 5. QEMU/KVM virtualization
 Sets up a full virtualization stack:
-- Installs `qemu-full`, `virt-manager`, `virt-viewer`, `libvirt`, `dnsmasq`, `bridge-utils` and more
+- Installs `qemu-full`, `virt-manager`, `virt-viewer`, `libvirt`, `dnsmasq`, `vde2`, `openbsd-netcat` and more
 - Loads `kvm` and `kvm_amd` kernel modules and persists them in `/etc/modules-load.d/kvm.conf`
 - Adds the current user to the `libvirt` group
 - Enables and starts `libvirtd`
@@ -84,7 +84,7 @@ Installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` cursor themes from the 
 Installs the SDDM login screen theme from `themes/sddm-astronaut-theme/`, installs its fonts, configures `/etc/sddm.conf`, enables the virtual keyboard, and sets SDDM as the active display manager.
 
 #### 10. Dotfiles sync
-Copies all config directories (`hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `swaylock`, `neofetch`, `starship.toml`) from `config/` to `~/.config/`. Existing directories are replaced with a clean copy.
+Copies all config directories (`hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `starship.toml`, `neofetch`) from `config/` to `~/.config/`. Existing directories are replaced with a clean copy.
 
 #### 11. Starship prompt
 Appends `eval "$(starship init bash)"` to `~/.bashrc` if not already present.
@@ -111,7 +111,7 @@ amd-ucode base git base-devel rust starship devtools
 
 ### Display & Compositor
 ```
-hyprland hyprpicker waybar wlsunset swww grim slurp swappy
+hyprland hyprpicker waybar wlsunset swww grim slurp swappy kitty
 xorg-server-xephyr xorg-xhost sddm refind qt6-virtualkeyboard rofimoji
 ```
 
@@ -122,7 +122,7 @@ inetutils net-tools network-manager-applet blueman bluez-utils avahi nss-mdns
 
 ### Utilities
 ```
-brightnessctl btop htop cliphist evtest micro nano vim unrar unzip nemo less
+acpi brightnessctl btop htop cliphist evtest micro nano vim unrar unzip nemo less
 gvfs-afc tesseract tesseract-data-eng tesseract-data-ukr dmidecode
 ```
 
@@ -131,10 +131,16 @@ gvfs-afc tesseract tesseract-data-eng tesseract-data-ukr dmidecode
 pipewire-pulse wireplumber easyeffects mpv cava spotify-launcher
 ```
 
+### Fonts
+```
+ttf-jetbrains-mono-nerd ttf-jetbrains-mono ttf-dejavu ttf-liberation
+noto-fonts noto-fonts-emoji ttf-nerd-fonts-symbols ttf-nerd-fonts-symbols-mono
+```
+
 ### Mesa & Vulkan Drivers (AMD)
 ```
-mesa mesa-vdpau lib32-mesa vulkan-radeon lib32-vulkan-radeon
-vulkan-icd-loader lib32-vulkan-icd-loader vulkan-tools
+mesa lib32-mesa vulkan-radeon lib32-vulkan-radeon
+vulkan-icd-loader lib32-vulkan-icd-loader libva-mesa-driver lib32-libva-mesa-driver
 ```
 
 ### Apps
@@ -150,15 +156,15 @@ steam
 
 ### Virtualization
 ```
-qemu-full virt-manager virt-viewer dnsmasq vde2 bridge-utils openbsd-netcat libvirt
+qemu-full virt-manager virt-viewer dnsmasq vde2 openbsd-netcat libvirt
 ```
 
 ### AUR packages
 Install these with `yay` or your preferred AUR helper:
 ```
-brave-bin catppuccin-gtk-theme-mocha neofetch swaylock-effects touchegg-gce-git
+brave-bin catppuccin-gtk-theme-mocha neofetch touchegg-gce-git
 waypaper wlogout peaclock pipes.sh yay yay-debug asusctl
-proton-pass-bin proton-authenticator-bin proton-vpn-gtk-app
+proton-pass proton-authenticator-bin proton-vpn-gtk-app
 ```
 
 ---
@@ -181,4 +187,4 @@ Alternatively, use the provided `install.sh` to prompt-install packages and sync
 
 ---
 
-*Last updated: 10-03-2026*
+*Last updated: 20-03-2026*
