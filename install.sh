@@ -6,7 +6,30 @@ set -euo pipefail
 # ─── Flags ────────────────────────────────────────────────────────────────────
 NOCONFIRM=false
 for arg in "$@"; do
-  [[ "$arg" == "--noconfirm" ]] && NOCONFIRM=true
+  case "$arg" in
+    --noconfirm) NOCONFIRM=true ;;
+    --help|-h)
+      echo ""
+      echo "Usage: ./install.sh [OPTIONS]"
+      echo ""
+      echo "Options:"
+      echo "  --noconfirm    Skip all prompts and install everything automatically."
+      echo "                 Both package group menus and all Y/n questions are"
+      echo "                 answered with yes. Useful for unattended installs."
+      echo ""
+      echo "  --help, -h     Show this help message and exit."
+      echo ""
+      echo "Without options, the script runs interactively:"
+      echo "  - Shows a numbered list of package groups (Menu 1)"
+      echo "  - Asks which groups to SKIP (comma-separated), Enter = install all"
+      echo "  - Prompts separately for asusctl and QEMU/KVM"
+      echo "  - Shows a numbered list of setup steps (Menu 2)"
+      echo "  - Asks which steps to SKIP, then runs the rest"
+      echo "  - Offers to launch Hyprland at the end"
+      echo ""
+      exit 0
+      ;;
+  esac
 done
 
 # ─── Colors ───────────────────────────────────────────────────────────────────
