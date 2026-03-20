@@ -335,6 +335,7 @@ fi
 # ══════════════════════════════════════════════════════════════════════════════
 SETUP_LABELS=(
   "Battery charge limit (80%)"
+  "Microphone levels (ALSA)"
   "Wallpapers"
   "Cursor themes (Bibata)"
   "SDDM Astronaut theme"
@@ -355,10 +356,26 @@ else
   setup_battery_threshold
 fi
 
-# ─── [2] Wallpapers ───────────────────────────────────────────────────────────
-header "Wallpapers"
+# ─── [2] Microphone ───────────────────────────────────────────────────────────
+header "Microphone Levels (ALSA)"
 if should_skip "2" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [2] Wallpapers"
+  warn "Skipping [2] Microphone levels"
+else
+  info "Installing alsa-utils..."
+  sudo pacman -S --needed --noconfirm alsa-utils
+  info "Setting Internal Mic Boost to 0..."
+  amixer -c 0 sset 'Internal Mic Boost' 0
+  info "Setting Capture level to 70%..."
+  amixer -c 0 sset 'Capture' 70%
+  info "Saving ALSA state..."
+  sudo alsactl store
+  success "Microphone levels configured."
+fi
+
+# ─── [3] Wallpapers ───────────────────────────────────────────────────────────
+header "Wallpapers"
+if should_skip "3" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [3] Wallpapers"
 else
   wallpaper_source="$SCRIPT_DIR/wallpapers/wallpaper.jpg"
   wallpaper_dest="$HOME/Pictures/wallpapers"
@@ -372,10 +389,10 @@ else
   fi
 fi
 
-# ─── [3] Cursors ──────────────────────────────────────────────────────────────
+# ─── [4] Cursors ──────────────────────────────────────────────────────────────
 header "Cursor Themes"
-if should_skip "3" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [3] Cursor themes"
+if should_skip "4" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [4] Cursor themes"
 else
   cursors_source="$SCRIPT_DIR/themes"
   if [[ -d "$cursors_source/Bibata-Modern-Classic" && -d "$cursors_source/Bibata-Modern-Ice" ]]; then
@@ -387,18 +404,18 @@ else
   fi
 fi
 
-# ─── [4] SDDM ─────────────────────────────────────────────────────────────────
+# ─── [5] SDDM ─────────────────────────────────────────────────────────────────
 header "SDDM Astronaut Theme"
-if should_skip "4" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [4] SDDM Astronaut theme"
+if should_skip "5" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [5] SDDM Astronaut theme"
 else
   install_sddm_theme
 fi
 
-# ─── [5] Dotfiles ─────────────────────────────────────────────────────────────
+# ─── [6] Dotfiles ─────────────────────────────────────────────────────────────
 header "Dotfiles Sync"
-if should_skip "5" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [5] Dotfiles sync"
+if should_skip "6" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [6] Dotfiles sync"
 else
   info "Syncing dotfiles..."
   TARGET="$HOME/.config"
@@ -420,10 +437,10 @@ else
   done
 fi
 
-# ─── [6] Starship ─────────────────────────────────────────────────────────────
+# ─── [7] Starship ─────────────────────────────────────────────────────────────
 header "Starship Prompt"
-if should_skip "6" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [6] Starship prompt"
+if should_skip "7" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [7] Starship prompt"
 else
   if ! grep -q 'eval "$(starship init bash)"' ~/.bashrc 2>/dev/null; then
     echo 'eval "$(starship init bash)"' >> ~/.bashrc
@@ -433,10 +450,10 @@ else
   fi
 fi
 
-# ─── [7] GRUB ─────────────────────────────────────────────────────────────────
+# ─── [8] GRUB ─────────────────────────────────────────────────────────────────
 header "Windows Dual-Boot (GRUB)"
-if should_skip "7" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [7] Windows dual-boot"
+if should_skip "8" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [8] Windows dual-boot"
 else
   info "Installing os-prober and updating GRUB config..."
   sudo pacman -Sy --noconfirm os-prober
@@ -445,10 +462,10 @@ else
   success "Windows dual-boot added to GRUB."
 fi
 
-# ─── [8] rEFInd ───────────────────────────────────────────────────────────────
+# ─── [9] rEFInd ───────────────────────────────────────────────────────────────
 header "rEFInd Boot Manager"
-if should_skip "8" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [8] rEFInd"
+if should_skip "9" "${SETUP_SKIP[@]:-}"; then
+  warn "Skipping [9] rEFInd"
 else
   info "Installing rEFInd..."
   sudo pacman -S --noconfirm refind
