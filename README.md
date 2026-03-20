@@ -76,13 +76,14 @@ If `yay` is not found, the script offers to build and install it from the AUR be
 | # | Step | Description |
 |---|---|---|
 | 1 | Battery charge limit | Sets a persistent 80% charge threshold via udev rule at `/etc/udev/rules.d/99-asus-battery-threshold.rules`. Requires `/sys/class/power_supply/BAT0/charge_control_end_threshold`. |
-| 2 | Wallpapers | Copies `wallpapers/wallpaper.jpg` to `~/Pictures/wallpapers/`. |
-| 3 | Cursor themes | Installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` from `themes/` to `/usr/share/icons/`. |
-| 4 | SDDM Astronaut theme | Installs the theme from `themes/sddm-astronaut-theme/`, configures `/etc/sddm.conf`, enables the virtual keyboard, and sets SDDM as the active display manager. |
-| 5 | Dotfiles sync | Copies `hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `starship.toml`, `neofetch` from `config/` to `~/.config/`. Existing directories are replaced. |
-| 6 | Starship prompt | Appends `eval "$(starship init bash)"` to `~/.bashrc` if not already present. |
-| 7 | Windows dual-boot (GRUB) | Installs `os-prober`, enables it in `/etc/default/grub`, regenerates the GRUB config. |
-| 8 | rEFInd boot manager | Installs `refind`, runs `refind-install`, and applies the Catppuccin Mocha theme from `themes/themes/` if present. |
+| 2 | Microphone levels (ALSA) | Installs `alsa-utils`, sets `Internal Mic Boost` to 0 and `Capture` to 70% via `amixer`, then saves the state with `alsactl store`. |
+| 3 | Wallpapers | Copies `wallpapers/wallpaper.jpg` to `~/Pictures/wallpapers/`. |
+| 4 | Cursor themes | Installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` from `themes/` to `/usr/share/icons/`. |
+| 5 | SDDM Astronaut theme | Installs the theme from `themes/sddm-astronaut-theme/`, configures `/etc/sddm.conf`, enables the virtual keyboard, and sets SDDM as the active display manager. |
+| 6 | Dotfiles sync | Copies `hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `starship.toml`, `neofetch` from `config/` to `~/.config/`. Existing directories are replaced. |
+| 7 | Starship prompt | Appends `eval "$(starship init bash)"` to `~/.bashrc` if not already present. |
+| 8 | Windows dual-boot (GRUB) | Installs `os-prober`, enables it in `/etc/default/grub`, regenerates the GRUB config. |
+| 9 | rEFInd boot manager | Installs `refind`, runs `refind-install`, and applies the Catppuccin Mocha theme from `themes/themes/` if present. |
 
 **Launch Hyprland.** After all steps, the script offers to launch Hyprland immediately.
 
