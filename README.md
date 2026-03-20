@@ -24,79 +24,67 @@ These files live in the `config/` directory and can be symlinked or copied into 
 
 ## install.sh
 
-`install.sh` is an interactive Bash script that guides you through setting up the full environment step by step. Each section is optional — you can choose to skip any part. Run it with:
+`install.sh` is an interactive Bash script that guides you through setting up the full environment step by step. Run it with:
 
 ```bash
 chmod +x install.sh
 ./install.sh
 ```
 
-### What it does
+### Options
 
-#### 1. Multilib repository check
-Detects if `[multilib]` is enabled in `/etc/pacman.conf`. If not, offers to enable it automatically (required for 32-bit libraries like `lib32-mesa`).
+```
+--noconfirm    Skip all prompts and install everything automatically.
+               Both group menus and all Y/n questions are answered with yes.
+               Useful for unattended installs.
 
-#### 2. Package installation
-Offers to install all package groups at once, or lets you pick each group individually:
+--help, -h     Show usage information and exit.
+```
 
-| Group | Packages |
-|---|---|
-| Hyprland & Wayland | `hyprland`, `hyprpicker`, `waybar`, `wlsunset`, `rofi`, `kitty`, `swww`, `mako`, `grim`, `slurp`, `swappy`, `sddm`, `rofimoji`, `xorg-server-xephyr`, `xorg-xhost`, `qt6-virtualkeyboard` |
-| Audio & Video | `pipewire-pulse`, `wireplumber`, `easyeffects`, `mpv`, `cava`, `spotify-launcher` |
-| Networking & Bluetooth | `inetutils`, `net-tools`, `network-manager-applet`, `blueman`, `bluez-utils`, `avahi`, `nss-mdns` |
-| Utilities | `acpi`, `btop`, `htop`, `brightnessctl`, `cliphist`, `evtest`, `micro`, `nano`, `vim`, `unrar`, `unzip`, `nemo`, `less`, `gvfs-afc`, `tesseract` (+ eng/ukr data), `dmidecode` |
-| Base & Development | `rust`, `starship`, `devtools` |
-| Social | `discord`, `telegram-desktop`, `signal-desktop` |
-| Apps | `firefox`, `obsidian`, `inkscape`, `viewnior`, `flatpak`, `nextcloud-client` |
-| Proton | `proton-pass`, `proton-authenticator`, `proton-vpn-gtk-app` |
-| Fonts | `ttf-jetbrains-mono-nerd`, `ttf-jetbrains-mono`, `ttf-dejavu`, `ttf-liberation`, `noto-fonts`, `noto-fonts-emoji`, `ttf-nerd-fonts-symbols`, `ttf-nerd-fonts-symbols-mono` |
-| Mesa & Vulkan (AMD) | `mesa`, `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `libva-mesa-driver`, `lib32-libva-mesa-driver` |
-| Gaming | `steam` |
+### How it works
 
-#### 3. AUR packages
-Installs AUR packages via `yay`. If `yay` is not found, the script offers to build and install it automatically from the AUR.
+The script is split into two group selection menus, two separate prompts, and a final launch step.
 
-AUR packages included: `brave-bin`, `catppuccin-gtk-theme-mocha`, `neofetch`, `touchegg-gce-git`, `waypaper`, `wlogout`, `peaclock`, `pipes.sh`, `yay`, `yay-debug`, `proton-pass`, `proton-authenticator-bin`
+**Menu 1 — Package groups.** A numbered list is shown and you enter which groups to **skip** (comma-separated). Press Enter to install all.
 
-#### 4. asusctl
-Separately prompts to install `asusctl` (ASUS laptop power/fan control utility) from the AUR.
+| # | Group | Packages |
+|---|---|---|
+| 1 | Hyprland & Wayland | `hyprland`, `hyprpicker`, `waybar`, `wlsunset`, `rofi`, `kitty`, `swww`, `mako`, `grim`, `slurp`, `swappy`, `sddm`, `rofimoji`, `xorg-server-xephyr`, `xorg-xhost`, `qt6-virtualkeyboard` |
+| 2 | Audio & Video | `pipewire-pulse`, `wireplumber`, `easyeffects`, `mpv`, `cava`, `spotify-launcher` |
+| 3 | Networking & Bluetooth | `inetutils`, `net-tools`, `network-manager-applet`, `blueman`, `bluez-utils`, `avahi`, `nss-mdns` |
+| 4 | Utilities | `acpi`, `btop`, `htop`, `brightnessctl`, `cliphist`, `evtest`, `micro`, `nano`, `vim`, `unrar`, `unzip`, `nemo`, `less`, `gvfs-afc`, `tesseract` (+ eng/ukr data), `dmidecode` |
+| 5 | Base & Development | `rust`, `starship`, `devtools` |
+| 6 | Social | `discord`, `telegram-desktop`, `signal-desktop` |
+| 7 | Apps | `firefox`, `obsidian`, `inkscape`, `viewnior`, `flatpak`, `nextcloud-client` |
+| 8 | Proton | `proton-vpn-gtk-app` |
+| 9 | Fonts | `ttf-jetbrains-mono-nerd`, `ttf-jetbrains-mono`, `ttf-dejavu`, `ttf-liberation`, `noto-fonts`, `noto-fonts-emoji`, `ttf-nerd-fonts-symbols`, `ttf-nerd-fonts-symbols-mono` |
+| 10 | Mesa & Vulkan (AMD) | `mesa`, `lib32-mesa`, `vulkan-radeon`, `lib32-vulkan-radeon`, `vulkan-icd-loader`, `lib32-vulkan-icd-loader`, `libva-mesa-driver`, `lib32-libva-mesa-driver` |
+| 11 | Gaming | `steam` |
+| 12 | AUR packages | `brave-bin`, `catppuccin-gtk-theme-mocha`, `neofetch`, `touchegg-gce-git`, `waypaper`, `wlogout`, `yay`, `yay-debug`, `peaclock`, `pipes.sh`, `proton-pass`, `proton-authenticator-bin` |
 
-#### 5. QEMU/KVM virtualization
-Sets up a full virtualization stack:
-- Installs `qemu-full`, `virt-manager`, `virt-viewer`, `libvirt`, `dnsmasq`, `vde2`, `openbsd-netcat` and more
-- Loads `kvm` and `kvm_amd` kernel modules and persists them in `/etc/modules-load.d/kvm.conf`
-- Adds the current user to the `libvirt` group
-- Enables and starts `libvirtd`
-- Starts and sets the default NAT network to autostart
+If `yay` is not found, the script offers to build and install it from the AUR before the package menu.
 
-> **Note:** Log out and back in after this step for group changes to take effect.
+**Separate prompts.** After the package menu, two optional components are prompted individually:
 
-#### 6. Battery charge limit (ASUS laptops)
-Sets a persistent 80% charge threshold to protect battery longevity. Creates a udev rule at `/etc/udev/rules.d/99-asus-battery-threshold.rules` and reloads udev. Requires `/sys/class/power_supply/BAT0/charge_control_end_threshold` to exist on your device.
+- **asusctl** — ASUS laptop power/fan control utility (AUR)
+- **QEMU/KVM virtualization** — installs `qemu-full`, `virt-manager`, `virt-viewer`, `libvirt`, `dnsmasq`, `vde2`, `openbsd-netcat`; loads and persists `kvm`/`kvm_amd` modules; adds the current user to the `libvirt` group; enables `libvirtd`; starts and autostarts the default NAT network.
 
-#### 7. Wallpapers
-Copies `wallpapers/wallpaper.jpg` from the repo to `~/Pictures/wallpapers/`.
+> **Note:** Log out and back in after QEMU/KVM setup for group changes to take effect.
 
-#### 8. Cursor themes
-Installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` cursor themes from the `themes/` directory to `/usr/share/icons/`.
+**Menu 2 — Setup steps.** Same skip-by-number mechanic for the remaining configuration steps:
 
-#### 9. SDDM Astronaut theme
-Installs the SDDM login screen theme from `themes/sddm-astronaut-theme/`, installs its fonts, configures `/etc/sddm.conf`, enables the virtual keyboard, and sets SDDM as the active display manager.
+| # | Step | Description |
+|---|---|---|
+| 1 | Battery charge limit | Sets a persistent 80% charge threshold via udev rule at `/etc/udev/rules.d/99-asus-battery-threshold.rules`. Requires `/sys/class/power_supply/BAT0/charge_control_end_threshold`. |
+| 2 | Wallpapers | Copies `wallpapers/wallpaper.jpg` to `~/Pictures/wallpapers/`. |
+| 3 | Cursor themes | Installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` from `themes/` to `/usr/share/icons/`. |
+| 4 | SDDM Astronaut theme | Installs the theme from `themes/sddm-astronaut-theme/`, configures `/etc/sddm.conf`, enables the virtual keyboard, and sets SDDM as the active display manager. |
+| 5 | Dotfiles sync | Copies `hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `starship.toml`, `neofetch` from `config/` to `~/.config/`. Existing directories are replaced. |
+| 6 | Starship prompt | Appends `eval "$(starship init bash)"` to `~/.bashrc` if not already present. |
+| 7 | Windows dual-boot (GRUB) | Installs `os-prober`, enables it in `/etc/default/grub`, regenerates the GRUB config. |
+| 8 | rEFInd boot manager | Installs `refind`, runs `refind-install`, and applies the Catppuccin Mocha theme from `themes/themes/` if present. |
 
-#### 10. Dotfiles sync
-Copies all config directories (`hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `starship.toml`, `neofetch`) from `config/` to `~/.config/`. Existing directories are replaced with a clean copy.
-
-#### 11. Starship prompt
-Appends `eval "$(starship init bash)"` to `~/.bashrc` if not already present.
-
-#### 12. Windows dual-boot (GRUB)
-Installs `os-prober`, enables it in `/etc/default/grub`, and regenerates the GRUB config to detect Windows automatically.
-
-#### 13. rEFInd boot manager
-Installs `refind` and runs `refind-install`. Optionally installs the Catppuccin Mocha theme from `themes/themes/` and appends it to `refind.conf`.
-
-#### 14. Launch Hyprland
-Offers to launch Hyprland immediately after everything is done.
+**Launch Hyprland.** After all steps, the script offers to launch Hyprland immediately.
 
 ---
 
