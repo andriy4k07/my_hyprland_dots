@@ -78,7 +78,7 @@ If `yay` is not found, the script offers to build and install it from the AUR be
 | 1 | Battery charge limit | Sets a persistent 80% charge threshold via udev rule at `/etc/udev/rules.d/99-asus-battery-threshold.rules`. Requires `/sys/class/power_supply/BAT0/charge_control_end_threshold`. |
 | 2 | Microphone levels (ALSA) | Installs `alsa-utils`, sets `Internal Mic Boost` to 0 and `Capture` to 70% via `amixer`, then saves the state with `alsactl store`. |
 | 3 | Wallpapers | Copies `wallpapers/wallpaper.jpg` to `~/Pictures/wallpapers/`. |
-| 4 | Cursor themes | Installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` from `themes/` to `/usr/share/icons/`. |
+| 4 | Themes | Copies `Catppuccin-Mocha` from `themes/` to `~/.local/share/themes/` and applies it via `gsettings` (`gtk-theme`, `color-scheme prefer-dark`). Also installs `Bibata-Modern-Classic` and `Bibata-Modern-Ice` cursor themes to `/usr/share/icons/`. |
 | 5 | SDDM Astronaut theme | Installs the theme from `themes/sddm-astronaut-theme/`, configures `/etc/sddm.conf`, enables the virtual keyboard, and sets SDDM as the active display manager. |
 | 6 | Dotfiles sync | Copies `hypr`, `waybar`, `rofi`, `kitty`, `mako`, `cava`, `starship.toml`, `neofetch` from `config/` to `~/.config/`. Existing directories are replaced. |
 | 7 | Starship prompt | Appends `eval "$(starship init bash)"` to `~/.bashrc` if not already present. |
