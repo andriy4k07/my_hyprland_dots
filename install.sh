@@ -337,7 +337,7 @@ SETUP_LABELS=(
   "Battery charge limit (80%)"
   "Microphone levels (ALSA)"
   "Wallpapers"
-  "Cursor themes (Bibata)"
+  "Themes (Catppuccin + Bibata cursors)"
   "SDDM Astronaut theme"
   "Dotfiles sync (~/.config)"
   "Starship prompt (~/.bashrc)"
@@ -389,18 +389,33 @@ else
   fi
 fi
 
-# ─── [4] Cursors ──────────────────────────────────────────────────────────────
-header "Cursor Themes"
+# ─── [4] Themes ───────────────────────────────────────────────────────────────
+header "Themes (Catppuccin + Bibata cursors)"
 if should_skip "4" "${SETUP_SKIP[@]:-}"; then
-  warn "Skipping [4] Cursor themes"
+  warn "Skipping [4] Themes"
 else
-  cursors_source="$SCRIPT_DIR/themes"
-  if [[ -d "$cursors_source/Bibata-Modern-Classic" && -d "$cursors_source/Bibata-Modern-Ice" ]]; then
+  themes_source="$SCRIPT_DIR/themes"
+
+  # Catppuccin GTK theme
+  if [[ -d "$themes_source/Catppuccin-Mocha" ]]; then
+    info "Installing Catppuccin-Mocha GTK theme to ~/.local/share/themes/..."
+    mkdir -p "$HOME/.local/share/themes"
+    cp -r "$themes_source/Catppuccin-Mocha" "$HOME/.local/share/themes/"
+    info "Applying GTK theme via gsettings..."
+    gsettings set org.gnome.desktop.interface gtk-theme 'Catppuccin-Mocha'
+    gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'
+    success "Catppuccin-Mocha theme applied."
+  else
+    warn "Catppuccin-Mocha directory not found in $themes_source"
+  fi
+
+  # Bibata cursor themes
+  if [[ -d "$themes_source/Bibata-Modern-Classic" && -d "$themes_source/Bibata-Modern-Ice" ]]; then
     info "Installing Bibata cursor themes to /usr/share/icons/..."
-    sudo mv "$cursors_source"/Bibata-Modern-* /usr/share/icons/
+    sudo mv "$themes_source"/Bibata-Modern-* /usr/share/icons/
     success "Bibata cursor themes installed."
   else
-    warn "Bibata cursor theme directories not found in $cursors_source"
+    warn "Bibata cursor theme directories not found in $themes_source"
   fi
 fi
 
