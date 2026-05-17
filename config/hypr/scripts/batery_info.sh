@@ -26,7 +26,7 @@ get_battery_info() {
             icon="⌨️"
         elif [[ $name =~ [Mm]ouse ]]; then
             icon="🖱️"
-        elif [[ $name =~ [Hh]eadphone|[Aa]ir[Pp]ods|[Ee]arbud ]]; then
+        elif [[ $name =~ ([Hh]eadphone|[Aa]ir[Pp]ods|[Ee]arbud|MAJOR) ]]; then
             icon="🎧"
         fi
 

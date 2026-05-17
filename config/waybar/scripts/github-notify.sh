@@ -51,7 +51,7 @@ notify_mode() {
 
     # 1) Коміти
     commits=$(curl -sf --netrc \
-      "$GH/repos/$USERNAME/$last_repo/commits?per_page=2" \
+      "$GH/repos/$USERNAME/$last_repo/commits?per_page=4" \
       | jq -r '.[] | "• " + .commit.message' \
       | while IFS= read -r line; do
             short=$(echo "$line" | cut -c1-50)
@@ -59,19 +59,33 @@ notify_mode() {
             echo "$short"
         done)
 
-    notify-send \
+    notify-send --urgency=critical \
       --hint=string:x-dunst-stack-tag:github-commits \
-      --expire-time=10000 \
-      "󰊤  $last_repo — коміти" "$commits"
+      --expire-time=0 \
+      "󰊤  $last_repo — commits" "$commits"
 
-    # 2) PR
-    pr_count=$(curl -sf --netrc \
+    # 2) PR (відкриті + останні закриті)
+    open_prs=$(curl -sf --netrc \
       "$GH/repos/$USERNAME/$last_repo/pulls?state=open&per_page=10" \
       | jq 'length')
-    [ -z "$pr_count" ] || [ "$pr_count" = "null" ] && pr_count=0
+    [ -z "$open_prs" ] || [ "$open_prs" = "null" ] && open_prs=0
 
-    if [ "$pr_count" -gt 0 ]; then
-        pr_body=$(curl -sf --netrc \
+    closed_count=$(curl -sf --netrc \
+          "$GH/repos/$USERNAME/$last_repo/pulls?state=closed&per_page=3" \
+          | jq 'length')
+        [ -z "$closed_count" ] || [ "$closed_count" = "null" ] && closed_count=0
+
+    closed_prs=$(curl -sf --netrc \
+      "$GH/repos/$USERNAME/$last_repo/pulls?state=closed&per_page=3" \
+      | jq -r '.[] | "✓ " + .title' \
+      | while IFS= read -r line; do
+            short=$(echo "$line" | cut -c1-50)
+            [ ${#line} -gt 50 ] && short="${short}…"
+            echo "$short"
+        done)
+
+    if [ "$open_prs" -gt 0 ]; then
+        open_body=$(curl -sf --netrc \
           "$GH/repos/$USERNAME/$last_repo/pulls?state=open&per_page=3" \
           | jq -r '.[] | "• " + .title' \
           | while IFS= read -r line; do
@@ -80,24 +94,27 @@ notify_mode() {
                 echo "$short"
             done)
     else
-        pr_body="Відкритих PR немає"
+        open_body="No open PRs"
     fi
 
-    notify-send \
+    pr_body=$(printf "%s\n―――――――――――――――――――\n%s" "$open_body" "$closed_prs")
+
+      notify-send --urgency=critical \
       --hint=string:x-dunst-stack-tag:github-pr \
-      --expire-time=10000 \
-      "󰊤  $last_repo — PR ($pr_count)" "$pr_body"
+      --expire-time=0 \
+       "󰊤  $last_repo — PR (open: $open_prs) (closed: $closed_count)" "$pr_body"
 
     # 3) Гілки
     branches=$(curl -sf --netrc \
       "$GH/repos/$USERNAME/$last_repo/branches?per_page=10" \
       | jq -r '.[] | "• " + .name')
 
-    notify-send \
+    notify-send --urgency=normal \
       --hint=string:x-dunst-stack-tag:github-branches \
-      --expire-time=10000 \
-      "󰊤  $last_repo — гілки" "$branches"
+      --expire-time=0 \
+      "󰊤  $last_repo — branches" "$branches"
 }
+
 
 # ── Точка входу ──────────────────────────────────────────────
 case "$1" in

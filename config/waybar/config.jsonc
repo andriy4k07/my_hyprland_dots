@@ -63,7 +63,7 @@
 	"custom/playerlabel": {
 		"format": "<span>{}</span>",
 		"return-type": "json",
-		"max-length": 48,
+		"max-length": 35,
 		"exec": "playerctl -a metadata --format '{\"text\": \"{{markup_escape(title)}}\", \"tooltip\": \"{{playerName}} : {{artist}} - {{markup_escape(title)}}\", \"alt\": \"{{status}}\", \"class\": \"{{status}}\"}' -F",
 		"on-click-middle": "playerctl play-pause",
 		"on-click": "playerctl previous",
@@ -120,9 +120,8 @@
 
 	"custom/weather": {
 	    "format": "{}",
-	    "interval": 900,
 	    "exec": "~/.config/waybar/scripts/weather.sh",
-	    "tooltip": false
+	    "interval": 900,
 	},
 
 	"tray": {
@@ -142,7 +141,7 @@
 
 	"pulseaudio#microphone": {
 	    "scroll-step": 5,
-	    "format": "{format_source}<span color='#6ecf9f'>| </span>",
+	    "format": "{format_source}<span color='#6ecf9f'> |</span>",
 	    "format-source": "",
 	    "format-source-muted": "",
 	    "on-click": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
@@ -151,7 +150,7 @@
 	
 	"backlight": {
 	  	"device": "amdgpu_bl1",
-	  	"format": "<span color='#6ecf9f'>{icon}</span> {percent}%",
+	  	"format": "<span color='#6ecf9f'>{icon}</span>{percent}%",
 	  	"tooltip": false,
 	  	"format-icons": ["󰃞", "󰃟", "󰃠"],
 	  	"on-scroll-up": "brightnessctl set +5%",

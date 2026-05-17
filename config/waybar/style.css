@@ -106,7 +106,7 @@ window#waybar {
 #backlight {
   margin-right: 5px;
   border-radius: 0 15px 15px 0;
-  padding-left: 6px;
+  padding-left: 1px;
 }
 
 /* ══════════════════════════════════════════════════════════════
