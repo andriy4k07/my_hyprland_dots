@@ -12,7 +12,6 @@
 - **Waybar** (status bar)
 - **Rofi** (application launcher)
 - **Starship** (shell prompt)
-- **Swaylock** (screen locker)
 - **Mako** (notification daemon)
 - **Cava** (audio visualizer)
 - **Kitty** (terminal emulator)
